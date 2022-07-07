@@ -1,6 +1,12 @@
 name: simple action
 
-on: [push, pull_request]
+on: 
+  push: 
+  pull_request:
+  # 実行時間を指定したいはsceduleを使う(参考: https://crontab.guru/)
+  # 最小設定化の時間は5分おき
+  # schedule:
+  #   - cron: "0/5 * * * *"
   # 下記のような書き方もできる
   # push:
   # pull_request: 
