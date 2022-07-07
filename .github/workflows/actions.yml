@@ -1,13 +1,23 @@
 name: simple action
 
-on: [push]
+on: 
+  push: 
+  pull_request:
+  # 実行時間を指定したいはsceduleを使う(参考: https://crontab.guru/)
+  # 最小設定化の時間は5分おき
+  # schedule:
+  #   - cron: "0/5 * * * *"
+  # 下記のような書き方もできる
+  # push:
+  # pull_request: 
+    # types: [assigned, opened]
 
 jobs:
   run-github-actions:
     runs-on: ubuntu-latest
     steps:
       - name: List files
-        run: |
+        run: | # 複数行記述する際は、|でつなぐ
           pwd
           ls -a
           echo $GITHUB_SHA
@@ -21,7 +31,7 @@ jobs:
           ls -a
       - name: simple action
         id: greet
-        uses: actions/hello-world-javascript-action@v1
+        uses: actions/hello-world-javascript-action@v1 # 他のgit branchを利用する際
         with:
           who-to-greet: John
       - name: Log greeting time
