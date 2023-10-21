@@ -6,4 +6,4 @@ jobs:
    steps:
      # @see https://docs.github.com/ja/actions/learn-github-actions/contexts
      - name: Output Github context
-       run: echo "${{ toJSON(gihthub) }}"
+       run: echo "${{ toJSON(github) }}"
