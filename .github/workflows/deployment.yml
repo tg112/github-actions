@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Project
-        run: npm run Build
+        run: npm run build
       - name: Deploy
         run: echo "deploying..."
     
