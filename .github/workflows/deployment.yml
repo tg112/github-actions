@@ -7,7 +7,7 @@ name: Test Project
   # push / pull_request / create / fork / issues / issue_comment / watch / discusssion etc...
 # others
   # workflow_dispatch / repository_dispatch / schedule / workflow_call
-on: push
+on: [push, workflow_dispatch] # use array if you need multiple triggers
 jobs:
   # job name
   test:
