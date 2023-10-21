@@ -7,7 +7,7 @@ name: Test Project
   # push / pull_request / create / fork / issues / issue_comment / watch / discusssion etc...
 # others
   # workflow_dispatch / repository_dispatch / schedule / workflow_call
-on: push
+on: [push, workflow_dispatch] # use array if you need multiple triggers
 jobs:
   # job name
   test:
@@ -29,5 +29,23 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
-      
+  deploy:
+    # in order to run deploy job, test needs to be finished
+    # needs keyword make it suquential job
+    needs: test
+    # if it is same workflow, each job needs env
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Project
+        run: npm run build
+      - name: Deploy
+        run: echo "deploying..."
     
