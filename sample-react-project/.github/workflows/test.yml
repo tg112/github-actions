@@ -1,0 +1,33 @@
+# workflow name
+name: Test Project
+
+# Events(Workflow trigger)
+# @see https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+# Repository related
+  # push / pull_request / create / fork / issues / issue_comment / watch / discusssion etc...
+# others
+  # workflow_dispatch / repository_dispatch / schedule / workflow_call
+on: push
+jobs:
+  # job name
+  test:
+    # environment to execite
+    runs-on: ubuntu-latest
+    steps:
+      # ubuntu doesn't have your code, so you have to download first
+      # ubuntu has pre installed node.js 
+      - name: Get code
+        # use not run but uses for actions
+        # @see https://github.com/marketplace/actions/checkout
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v3
+        # if you have any options, write them in with
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+      
+    
