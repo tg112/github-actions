@@ -36,6 +36,12 @@ jobs:
     # if it is same workflow, each job needs env
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - name: Build Project
         run: npm run build
       - name: Deploy
