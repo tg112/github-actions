@@ -29,5 +29,15 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
-      
+  deploy:
+    # in order to run deploy job, test needs to be finished
+    # needs keyword make it suquential job
+    needs: test
+    # if it is same workflow, each job needs env
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Project
+        run: npm run Build
+      - name: Deploy
+        run: echo "deploying..."
     
