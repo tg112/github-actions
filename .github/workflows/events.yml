@@ -1,0 +1,48 @@
+# Event
+  # Activity type: More detailed control over when a workflow will be triggered(opened, closed, edited...)
+  # filters: More detailed control over when a workflow will be triggered(filter based on target branch)
+
+
+name: Events Demo
+on:
+  pull_request:
+    types:
+      - opened
+  workflow_dispatch:
+    
+jobs:
+  # job name
+  test:
+    # environment to execite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Project
+        run: npm run build
+      - name: Deploy
+        run: echo "deploying..."
+    
+
+        
+   
