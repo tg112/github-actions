@@ -1,0 +1,57 @@
+# Event
+  # @see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+  # Activity type: More detailed control over when a workflow will be triggered(opened, closed, edited...)
+  # filters: More detailed control over when a workflow will be triggered(filter based on target branch)
+  # skip ci @see https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs
+  
+
+
+name: Events Demo
+on:
+  pull_request:
+    types:
+      - opened
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - 'dev-*' # deve-new dev-this-is-new
+      - 'feat/**' # feat/new feat/new/button
+    path-ignores:
+      - '.github/workflows/*'
+jobs:
+  # job name
+  test:
+    # environment to execite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Project
+        run: npm run build
+      - name: Deploy
+        run: echo "deploying..."
+    
+
+        
+   
