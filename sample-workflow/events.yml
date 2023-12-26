@@ -2,6 +2,8 @@
   # @see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
   # Activity type: More detailed control over when a workflow will be triggered(opened, closed, edited...)
   # filters: More detailed control over when a workflow will be triggered(filter based on target branch)
+  # skip ci @see https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs
+  
 
 
 name: Events Demo

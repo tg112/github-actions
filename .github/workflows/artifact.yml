@@ -1,0 +1,77 @@
+# @see https://docs.github.com/en/rest/actions/artifacts?apiVersion=2022-11-28
+# artifact
+# workflowが完了するたびに、workflowにおけるjobと蓄積したデータ間でデータの共有を可能にする
+
+# outputs
+# それぞれのstepsで単純なバリューの作成や共有ができる
+# jobはstepのcontextを使って、stepのoutputを使ったり共有できる
+# 他のjobもneeds contextを使ってoutputを使用できる
+
+# Caching Dependencies
+# stepの繰り返し処理の高速化、遅いstepの改善を助ける
+# 共通しているdependenciesのinstallなどをキャッシュを使って、使いまわす
+# artifactsのためには使わない
+
+name: Deploy websites
+on:
+  push:
+   branches:
+    - main
+jobs:
+  test:
+   runs-on: ubuntu-latest
+   steps:
+    - name: Get code
+      uses: actions/checkout@v3
+    - name: Caching deps
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: deps-node-modules-${{ hashFiles('**/package-lock.json')}}
+    - name: Install dependencies
+      run: npm ci
+    - name: Lint code
+      run: npm run lint
+    - name: test code
+      run: npm run test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      script-file: ${{ steps.publish.outputs.script-file }}
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Caching deps
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json')}}
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: publish JS file
+        id: publish
+        run: find dist/assets/*.js -type f -execdir echo '::set-output name=script-file::{}' ';'
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-files
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
+      - name: output contents
+        run: echo "${{ needs.build.outputs.script-file }}"
+      - name: Deploy
+        run: echo "Deploying..."
+
+        
+   
+
