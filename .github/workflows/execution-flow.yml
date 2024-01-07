@@ -36,8 +36,9 @@ jobs:
         id: run-tests
         run: npm run test
       - name: Upload test report
-        # test codeの結果を条件として判定する  
-        if: steps.run-tests.outcome == 'failure'
+        # test codeの結果を条件として判定する
+        # 条件に関する特別な関数: failure() / always() / success() / concenlled() がある
+        if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v3
         with:
           name: test-report
