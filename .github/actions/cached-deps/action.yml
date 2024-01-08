@@ -24,6 +24,6 @@ runs:
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
       run: | 
         npm ci
-        echo "::set-output name=cache::'${{ inputs.caching }}'"
+        echo "{cache}={ inputs.caching }" >> "$GITHUB_OUTPUT"
       # composite actionを作る際は、shellを設定する必要がある。
       shell: bash
