@@ -50,7 +50,10 @@ jobs:
         #   AWS_SECRET_ACCESS_KEY: {{ secrets.AWS_SECRET_ACCESS_KEY }}
         # with:
         #   bucket: 'bucket name here'
-        #   dist-folder: ./dist          
+        #   dist-folder: ./dist      
+        # name: output info
+            # run: |
+            #   echo "Live url ${{ steps.deploy.outputs.website-url }}"    
         run: echo "Deploying..."
   information:
     runs-on: ubuntu-latest
