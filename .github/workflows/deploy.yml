@@ -50,5 +50,9 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: run from toJson
+      - name: Install action dependencies
+        run: |
+          cd .github/actions/deploy-s3-js
+          npm ci
+      - name: Run custom action
         uses: ./.github/actions/deploy-s3-javascript
